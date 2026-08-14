@@ -1,11 +1,400 @@
 <!DOCTYPE html>
-<html>
+<html lang="bn">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width">
-  <title>111n</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hb Hall</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Inter & Hind Siliguri for Bengali -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Video.js CSS -->
+    <link href="https://vjs.zencdn.net/8.10.0/video-js.css" rel="stylesheet" />
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'Hind Siliguri', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            red: '#E50914',
+                            dark: '#0A0A0C',
+                            card: '#141419',
+                            accent: '#221F29'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Inter', 'Hind Siliguri', sans-serif;
+            background-color: #0A0A0C;
+        }
+        /* Custom Video.js Styling */
+        .video-js {
+            width: 100%;
+            height: 100%;
+            border-radius: 0.75rem;
+            overflow: hidden;
+        }
+        .vjs-theme-custom .vjs-control-bar {
+            background: rgba(10, 10, 12, 0.85);
+            backdrop-filter: blur(8px);
+        }
+        .vjs-big-play-button {
+            background-color: #E50914 !important;
+            border: none !important;
+            border-radius: 50% !important;
+            width: 70px !important;
+            height: 70px !important;
+            line-height: 70px !important;
+            margin-top: -35px !important;
+            margin-left: -35px !important;
+        }
+    </style>
 </head>
-<body>
-  HBHALL WELCOME
+<body class="bg-brand-dark text-gray-100 min-h-screen flex flex-col justify-between">
+
+    <!-- Header Navigation -->
+    <header class="border-b border-gray-800 bg-brand-dark/80 backdrop-blur-md sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <span class="text-xl font-bold tracking-tight text-white">HB <span class="text-brand-red">Hall</span></span>
+            </div>
+            
+            <!-- Live Badge & Online Count -->
+            <div class="flex items-center gap-4">
+                <div class="flex items-center gap-2 bg-red-950/60 border border-red-800/50 text-red-400 px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-wider animate-pulse">
+                    <span class="w-2 h-2 rounded-full bg-brand-red"></span>
+                    <span id="live-badge-text">Off Air</span>
+                </div>
+                <div class="hidden sm:flex items-center gap-2 bg-gray-800/80 px-3 py-1 rounded-full text-xs font-medium text-gray-300 border border-gray-700">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-emerald-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
+                    </svg>
+                    <span id="viewer-count"><!-- BEGIN: Powered by Supercounters.com -->
+<center><script type="text/javascript" src="//widget.supercounters.com/ssl/online_i.js"></script><script type="text/javascript">sc_online_i(1737704,"ffffff","e61c1c");</script><!-- END: Powered by Supercounters.com -->
+</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content Grid -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 flex-grow w-full">
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 items-start">
+            
+            <!-- Left Column: Stream Screen & Info (Spans 2 columns on large screens) -->
+            <div class="lg:col-span-2 space-y-4">
+                
+                <!-- Video Player Container -->
+                <div class="relative bg-black rounded-2xl overflow-hidden shadow-2xl border border-gray-800 group min-h-[340px] sm:aspect-video sm:min-h-0">
+                    <video id="cinema-player" class="video-js vjs-default-skin vjs-big-play-centered hidden" controls preload="auto" poster="https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?q=80&w=1200&auto=format&fit=crop">
+                        <p class="vjs-no-js">
+                            To view this video please enable JavaScript, and consider upgrading to a web browser that
+                            <a href="https://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a>.
+                        </p>
+                    </video>
+
+                    <!-- Next Show / Offline Screen -->
+                    <div id="offline-screen" class="absolute inset-0 flex flex-col items-center justify-center text-center px-4 sm:px-8 overflow-hidden">
+                        <div class="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(229,9,20,0.15),transparent_60%)] pointer-events-none"></div>
+                        <div class="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-brand-red/60 to-transparent"></div>
+
+                        <span class="inline-flex items-center gap-2 bg-red-950/60 border border-red-800/50 text-red-400 px-4 py-1.5 rounded-full text-[11px] font-bold uppercase tracking-widest mb-4">
+                            <span class="w-2 h-2 rounded-full bg-brand-red animate-pulse"></span>
+                            <span id="off-air-badge-text">Off Air</span>
+                        </span>
+
+                        <p id="next-show-label" class="text-[11px] sm:text-xs font-semibold uppercase tracking-[0.35em] text-gray-400 mb-2">Next Show</p>
+
+                        <h2 id="next-show-title" class="text-xl sm:text-4xl lg:text-5xl font-extrabold text-white tracking-tight leading-tight mb-6 sm:mb-8 drop-shadow-[0_0_30px_rgba(229,9,20,0.35)]">Inception (2010) — Extended Cut</h2>
+
+                        <div class="flex items-center gap-2.5 sm:gap-4 mb-3">
+                            <div class="bg-gray-800/70 border border-gray-700 rounded-lg sm:rounded-xl w-14 sm:w-20 py-2.5 sm:py-4 backdrop-blur">
+                                <div id="count-h" class="text-2xl sm:text-3xl font-bold text-white tabular-nums leading-none">00</div>
+                                <div id="unit-hours" class="text-[8px] sm:text-[10px] text-gray-400 uppercase tracking-widest mt-1">Hours</div>
+                            </div>
+                            <span class="text-2xl sm:text-3xl font-bold text-brand-red animate-pulse leading-none">:</span>
+                            <div class="bg-gray-800/70 border border-gray-700 rounded-lg sm:rounded-xl w-14 sm:w-20 py-2.5 sm:py-4 backdrop-blur">
+                                <div id="count-m" class="text-2xl sm:text-3xl font-bold text-white tabular-nums leading-none">00</div>
+                                <div id="unit-minutes" class="text-[8px] sm:text-[10px] text-gray-400 uppercase tracking-widest mt-1">Minutes</div>
+                            </div>
+                            <span class="text-2xl sm:text-3xl font-bold text-brand-red animate-pulse leading-none">:</span>
+                            <div class="bg-gray-800/70 border border-gray-700 rounded-lg sm:rounded-xl w-14 sm:w-20 py-2.5 sm:py-4 backdrop-blur">
+                                <div id="count-s" class="text-2xl sm:text-3xl font-bold text-white tabular-nums leading-none">00</div>
+                                <div id="unit-seconds" class="text-[8px] sm:text-[10px] text-gray-400 uppercase tracking-widest mt-1">Seconds</div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- Movie Title & Details Card -->
+                <div class="bg-brand-card p-5 rounded-2xl border border-gray-800 flex flex-col md:flex-row md:items-center justify-between gap-4">
+                    <div>
+                        <div class="flex items-center gap-2 mb-1">
+                            <span id="show-badge" class="bg-brand-red/20 text-brand-red text-xs font-bold px-2.5 py-0.5 rounded border border-brand-red/30">NEXT SHOW</span>
+                            <span id="show-meta" class="text-xs text-gray-400"></span>
+                        </div>
+                        <h1 id="movie-title" class="text-xl md:text-2xl font-bold text-white tracking-wide">Inception (2010) — Extended Cut</h1>
+                        <p id="movie-subtitle" class="text-xs text-gray-400 mt-1">HB Hall এ লাইভ দেখো • Friends with Bangali Cinema</p>
+                    </div>
+
+                    <div class="flex items-center gap-3">
+                        <button onclick="copyStreamLink()" class="flex items-center gap-2 bg-gray-800 hover:bg-gray-700 text-gray-200 px-4 py-2 rounded-xl text-sm font-medium transition border border-gray-700 active:scale-95">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z" />
+                            </svg>
+                            <span id="share-button-label">Share Link</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Host Controls & Instructions Box -->
+                <div class="bg-brand-accent/40 p-4 rounded-xl border border-gray-800/80 text-xs text-gray-300 space-y-2">
+                    <div class="font-semibold text-white flex items-center gap-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-brand-red" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                       Disclimer
+                    </div>
+                    <p class="leading-relaxed">
+HBhall does not host or upload any files on its own servers. All media files, links, and content are provided by third-party websites that are freely available on the internet. HBhall only collects and shares links for informational and educational purposes. We do not take any responsibility for the content hosted on external websites.
+
+                    </p>
+                </div>
+
+            </div>
+
+            <!-- Right Column: Live Chat Section -->
+            <div class="lg:col-span-1 bg-brand-card border border-gray-800 rounded-2xl flex flex-col h-[580px] overflow-hidden shadow-xl">
+                
+                <!-- Chat Header -->
+                <div class="p-4 border-b border-gray-800 bg-gray-900/40 flex items-center justify-between">
+                    <div class="flex items-center gap-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-brand-red" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+                        </svg>
+                        <h2 class="font-bold text-white text-sm">Live Hall Chat</h2>
+                    </div>
+                    <span class="text-[10px] bg-emerald-950 text-emerald-400 border border-emerald-800 px-2 py-0.5 rounded-full font-mono">Synced</span>
+                </div>
+
+                <!-- Cbox Live Chat -->
+                <div class="flex-grow overflow-hidden">
+                    <iframe src="https://www5.cbox.ws/box/?boxid=965609&boxtag=no1X9G" width="100%" height="450" allowtransparency="yes" allow="autoplay" frameborder="0" marginheight="0" marginwidth="0" scrolling="auto"></iframe>
+                </div>
+
+            </div>
+
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="border-t border-gray-800 py-4 mt-8 bg-brand-dark/50">
+        <div class="max-w-7xl mx-auto px-4 text-center text-xs text-gray-500">
+            HB Hall - The Best Online Cinama Hall
+        </div>
+    </footer>
+
+    <!-- Video.js JS -->
+    <script src="https://vjs.zencdn.net/8.10.0/video.js"></script>
+    <script>
+        // ============================================================
+        // DEFAULT CONFIG — data.json load na hole ei gula use hobe.
+        // DATA EDIT KORO: data.json file e
+        // ============================================================
+        const DEFAULT_CONFIG = {
+            isLive: false,                    // cinema cholle: true, na cholle: false
+            streamUrl: "",                    // stream link (.m3u8 ba lvpr.tv?v=...)
+            nextShow: {
+                title: "Inception (2010) — Extended Cut",
+                date: "2026-08-14T21:00:00+06:00"   // next show start time (BD time)
+            },
+            ui: {
+                offAirLabel: "OFF AIR",
+                nextShowLabel: "NEXT SHOW",
+                hoursLabel: "HOURS",
+                minutesLabel: "MINUTES",
+                secondsLabel: "SECONDS",
+                badgeNext: "NEXT SHOW",
+                badgeLive: "NOW SHOWING",
+                metaLive: "এখন লাইভ চলছে",
+                metaOfflinePrefix: "শো শুরু (BD): ",
+                subtitleLine: "HB Hall এ লাইভ দেখো • Friends with Bangali Cinema",
+                shareButtonLabel: "Share Link"
+            }
+        };
+        // ============================================================
+
+        let CONFIG = null;
+        let player = null;
+        let activeSrc = '';
+        let countdownTimer = null;
+        let wasLive = false;
+
+        // data.json load kore, change hole apply kore. 5 second por por re-check kore
+        async function loadConfig() {
+            let changed = false;
+            try {
+                const res = await fetch('data.json', { cache: 'no-store' });
+                const next = await res.json();
+                if (!CONFIG) {
+                    CONFIG = next;
+                    changed = true;
+                } else if (JSON.stringify(CONFIG) !== JSON.stringify(next)) {
+                    CONFIG = next;
+                    changed = true;
+                }
+            } catch (err) {
+                if (!CONFIG) {
+                    CONFIG = DEFAULT_CONFIG;
+                    changed = true;
+                }
+            }
+
+            if (changed) {
+                applyConfig();
+            }
+            setTimeout(loadConfig, 5000);
+        }
+
+        function pad(n) {
+            return String(n).padStart(2, '0');
+        }
+
+        // lvpr.tv link thakle m3u8 URL e convert kore, na hole as-is use kore
+        function resolveStreamUrl(url) {
+            if (!url) return '';
+            if (url.includes('.m3u8')) return url;
+            const m = url.match(/[?&]v=([a-zA-Z0-9]+)/);
+            if (m) {
+                return 'https://fra-prod-catalyst-0.lp-playback.studio/hls/video+' + m[1] + '/1_0/index.m3u8';
+            }
+            return url;
+        }
+
+        function startLiveStream() {
+            const video = document.getElementById('cinema-player');
+            const offline = document.getElementById('offline-screen');
+            offline.classList.add('hidden');
+            video.classList.remove('hidden');
+
+            if (!player) {
+                player = videojs('cinema-player', {
+                    autoplay: true,
+                    controls: true,
+                    responsive: true,
+                    fluid: true
+                });
+            }
+
+            const src = resolveStreamUrl(CONFIG.streamUrl);
+            if (src && src !== activeSrc) {
+                activeSrc = src;
+                player.src({ src: src, type: 'application/x-mpegURL' });
+                player.play();
+            }
+        }
+
+        function stopLiveStream() {
+            const video = document.getElementById('cinema-player');
+            const offline = document.getElementById('offline-screen');
+            video.classList.add('hidden');
+            offline.classList.remove('hidden');
+            if (player) {
+                player.pause();
+            }
+            activeSrc = '';
+            if (countdownTimer) {
+                clearInterval(countdownTimer);
+                countdownTimer = null;
+            }
+            updateCountdown();
+            countdownTimer = setInterval(updateCountdown, 1000);
+        }
+
+        function updateCountdown() {
+            const cfg = CONFIG || DEFAULT_CONFIG;
+            const target = new Date(cfg.nextShow.date).getTime();
+            const diff = target - Date.now();
+
+            if (diff <= 0) {
+                document.getElementById('count-h').textContent = '00';
+                document.getElementById('count-m').textContent = '00';
+                document.getElementById('count-s').textContent = '00';
+                return;
+            }
+
+            const h = Math.floor(diff / 3600000);
+            const m = Math.floor((diff % 3600000) / 60000);
+            const s = Math.floor((diff % 60000) / 1000);
+
+            document.getElementById('count-h').textContent = pad(h);
+            document.getElementById('count-m').textContent = pad(m);
+            document.getElementById('count-s').textContent = pad(s);
+        }
+
+        // Countdown page load er shathei suru hoy — data.json ashar aageo chole
+        function startCountdown() {
+            updateCountdown();
+            if (!countdownTimer) {
+                countdownTimer = setInterval(updateCountdown, 1000);
+            }
+        }
+
+        function applyConfig() {
+            document.getElementById('next-show-title').textContent = CONFIG.nextShow.title;
+            document.getElementById('movie-title').textContent = CONFIG.nextShow.title;
+
+            const ui = CONFIG.ui || {};
+            document.getElementById('off-air-badge-text').textContent = ui.offAirLabel || 'OFF AIR';
+            document.getElementById('next-show-label').textContent = ui.nextShowLabel || 'NEXT SHOW';
+            document.getElementById('unit-hours').textContent = ui.hoursLabel || 'HOURS';
+            document.getElementById('unit-minutes').textContent = ui.minutesLabel || 'MINUTES';
+            document.getElementById('unit-seconds').textContent = ui.secondsLabel || 'SECONDS';
+            document.getElementById('movie-subtitle').textContent = ui.subtitleLine || 'HB Hall এ লাইভ দেখো • Friends with Bangali Cinema';
+            document.getElementById('share-button-label').textContent = ui.shareButtonLabel || 'Share Link';
+
+            if (CONFIG.isLive) {
+                document.getElementById('live-badge-text').textContent = 'Live Streaming';
+                document.getElementById('show-badge').textContent = ui.badgeLive || 'NOW SHOWING';
+                document.getElementById('show-meta').textContent = ui.metaLive || 'এখন লাইভ চলছে';
+                if (!wasLive) {
+                    wasLive = true;
+                    if (countdownTimer) {
+                        clearInterval(countdownTimer);
+                        countdownTimer = null;
+                    }
+                }
+                startLiveStream();
+            } else {
+                document.getElementById('live-badge-text').textContent = 'Off Air';
+                document.getElementById('show-badge').textContent = ui.badgeNext || 'NEXT SHOW';
+                document.getElementById('show-meta').textContent = (ui.metaOfflinePrefix || 'শো শুরু (BD): ') + new Date(CONFIG.nextShow.date).toLocaleString('en-GB', { timeZone: 'Asia/Dhaka', day: '2-digit', month: 'short', hour: '2-digit', minute: '2-digit' });
+                if (wasLive) {
+                    wasLive = false;
+                    stopLiveStream();
+                } else {
+                    startCountdown();
+                }
+            }
+        }
+
+        startCountdown();
+        loadConfig();
+
+        function copyStreamLink() {
+            navigator.clipboard.writeText(window.location.href);
+            alert('The hall room link has been copied! Share it with your friends.');
+        }
+    </script>
 </body>
 </html>
