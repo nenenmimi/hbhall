@@ -1,9 +1,9 @@
 {
-  "isLive": true,
-  "streamUrl": "https://lvpr.tv?v=2f0ergvjb6pf4pdn",
+  "isLive": false,
+  "streamUrl": "",
   "nextShow": {
     "title": "Awarapan 2",
-    "date": "2026-08-15T00:30:00+06:00"
+    "date": "2026-08-15T10:30:00+06:00"
   },
   "ui": {
     "offAirLabel": "OFF AIR",
